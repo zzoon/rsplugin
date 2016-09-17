@@ -46,7 +46,8 @@ extern gboolean demuxer_is_seekable (void *rsdemuxer);
 extern gboolean demuxer_get_position (void *rsdemuxer, uint64_t * position);
 extern gboolean demuxer_get_duration (void *rsdemuxer, uint64_t * duration);
 
-extern gboolean demuxer_seek (void *rsdemuxer, uint64_t start, uint64_t stop, uint64_t *offset);
+extern gboolean demuxer_seek (void *rsdemuxer, uint64_t start, uint64_t stop,
+    uint64_t * offset);
 extern GstFlowReturn demuxer_handle_buffer (void *rsdemuxer,
     GstBuffer * buffer);
 extern void demuxer_end_of_stream (void *rsdemuxer);
@@ -403,7 +404,7 @@ gst_rs_demuxer_added_all_streams (GstRsDemuxer * demuxer)
 }
 
 void
-gst_rs_demuxer_stream_change_format (GstRsDemuxer * demuxer, guint32 index,
+gst_rs_demuxer_stream_format_changed (GstRsDemuxer * demuxer, guint32 index,
     const gchar * format)
 {
   GstCaps *caps;
