@@ -35,6 +35,7 @@ pub mod rssink;
 pub mod rsfilesrc;
 pub mod rshttpsrc;
 pub mod rsfilesink;
+pub mod rsdemuxer;
 
 use utils::*;
 use rsfilesrc::FileSrc;
