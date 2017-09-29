@@ -1,6 +1,6 @@
 [workspace]
 
-members = ["gst-plugin", "gst-plugin-file", "gst-plugin-http", "gst-plugin-flv"]
+members = ["gst-plugin", "gst-plugin-file", "gst-plugin-http", "gst-plugin-flv", "gst-vaapi"]
 
 [profile.release]
 lto = true
