@@ -1,6 +1,17 @@
 [workspace]
 
-members = ["gst-plugin", "gst-plugin-file", "gst-plugin-http", "gst-plugin-flv", "gst-vaapi"]
+members = [
+    "gst-plugin",
+    "gst-plugin-file",
+    "gst-plugin-http",
+    "gst-plugin-flv",
+    "gst-plugin-audiofx",
+    "gst-vaapi",
+]
 
 [profile.release]
 lto = true
+debug-assertions = false
+opt-level = 3
+debug = true
+panic = 'unwind'
