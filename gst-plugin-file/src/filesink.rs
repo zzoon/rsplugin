@@ -63,6 +63,10 @@ impl SinkImpl for FileSink {
         Box::new(validate_uri)
     }
 
+    fn set_caps (&mut self, sink: &RsBaseSink, caps: &gst::CapsRef) -> Result<(), bool> {
+        Ok(())
+    }
+
     fn start(&mut self, sink: &RsBaseSink, uri: Url) -> Result<(), ErrorMessage> {
         if let StreamingState::Started { .. } = self.streaming_state {
             return Err(error_msg!(

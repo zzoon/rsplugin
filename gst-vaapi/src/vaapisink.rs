@@ -12,6 +12,7 @@ use std::convert::From;
 use gst_plugin::error::*;
 use gst_plugin::sink::*;
 use gst;
+use gst_video;
 
 use libva_rust::va::*;
 use libva_rust::renderer::*;
@@ -19,11 +20,6 @@ use libva_rust::renderer_x11::*;
 
 use std::ptr;
 use x11::xlib::XOpenDisplay;
-
-pub const WIDTH: u32 = 320;
-pub const HEIGHT: u32 = 240;
-//pub const WIDTH: u32 = 1280;
-//pub const HEIGHT: u32 = 720;
 
 #[derive(Debug)]
 enum StreamingState {
@@ -49,7 +45,7 @@ impl VAapiSink {
         }
 
         let va_disp = VADisplay::initialize(native_display as *mut VANativeDisplay).unwrap();
-        let va_renderer = VARendererX11::new(va_disp, WIDTH, HEIGHT).unwrap();
+        let va_renderer = VARendererX11::new(va_disp, 0, 0).unwrap();
 
         VAapiSink {
             va_renderer: va_renderer,
@@ -78,6 +74,14 @@ impl SinkImpl for VAapiSink {
         Box::new(validate_uri)
     }
 
+    fn set_caps (&mut self, sink: &RsBaseSink, caps: &gst::CapsRef) -> Result<(), bool> {
+        let info = gst_video::VideoInfo::from_caps(&caps.to_owned()).unwrap();
+
+        self.va_renderer.set_resolution(info.width(), info.height());
+        self.va_renderer.open();
+        Ok(())
+    }
+
     fn start(&mut self, sink: &RsBaseSink, uri: Url) -> Result<(), ErrorMessage> {
         if let StreamingState::Started { .. } = self.streaming_state {
             return Err(error_msg!(
@@ -86,12 +90,7 @@ impl SinkImpl for VAapiSink {
             ));
         }
 
-        self.va_renderer.open();
-
-        gst_debug!(self.cat, obj: sink, "Opened VA-API");
-
         self.streaming_state = StreamingState::Started;
-
         Ok(())
     }
 

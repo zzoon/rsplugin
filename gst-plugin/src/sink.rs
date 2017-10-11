@@ -31,6 +31,7 @@ pub trait SinkImpl: Send + 'static {
     fn start(&mut self, sink: &RsBaseSink, uri: Url) -> Result<(), ErrorMessage>;
     fn stop(&mut self, sink: &RsBaseSink) -> Result<(), ErrorMessage>;
     fn render(&mut self, sink: &RsBaseSink, buffer: &gst::BufferRef) -> Result<(), FlowError>;
+    fn set_caps(&mut self, sink: &RsBaseSink, caps: &gst::CapsRef) -> Result<(), bool>;
 }
 
 struct Sink {
@@ -226,6 +227,20 @@ impl BaseSinkImpl<RsBaseSink> for Sink {
                     _ => (),
                 }
                 flow_error.to_native()
+            }
+        }
+    }
+
+    fn set_caps(&self, sink: &RsBaseSink, caps: &gst::CapsRef) -> bool {
+        let sink_impl = &mut self.imp.lock().unwrap();
+
+        gst_trace!(self.cat, obj: sink, "Caps {:?}", caps,);
+
+        match sink_impl.set_caps(sink, caps) {
+            Ok(()) => true,
+            Err(flow_error) => {
+                gst_error!(self.cat, obj: sink, "Failed to set caps: {:?}", flow_error);
+                false
             }
         }
     }

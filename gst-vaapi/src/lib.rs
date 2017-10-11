@@ -12,6 +12,7 @@
 extern crate gst_plugin;
 #[macro_use]
 extern crate gstreamer as gst;
+extern crate gstreamer_video as gst_video;
 extern crate url;
 
 extern crate libva_rust;
