@@ -10,7 +10,7 @@ url = "1.1"
 gst-plugin = { path="../gst-plugin" }
 gstreamer = { git = "https://github.com/sdroege/gstreamer-rs", features = ["v1_10"] }
 gstreamer-video = { git = "https://github.com/sdroege/gstreamer-rs", features = ["v1_12"] }
-libva-rust = { path="../../libva-rust" }
+libva-rust = { git="https://github.com/zzoon/libva-rust" }
 x11 = "2.3"
 
 [lib]
