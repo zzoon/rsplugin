@@ -10,6 +10,7 @@
 
 #[macro_use]
 extern crate gst_plugin;
+extern crate gst_plugin_simple;
 #[macro_use]
 extern crate gstreamer as gst;
 extern crate gstreamer_video as gst_video;
@@ -18,7 +19,7 @@ extern crate url;
 extern crate libva_rust;
 extern crate x11;
 
-use gst_plugin::sink::*;
+use gst_plugin_simple::sink::*;
 
 mod vaapisink;
 
@@ -30,7 +31,7 @@ fn plugin_init(plugin: &gst::Plugin) -> bool {
         SinkInfo {
             name: "rsvaapisink".into(),
             long_name: "VA-API Sink".into(),
-            description: "A VA-API based videosink".into(),
+            description: "A VA-API based videosink written by Rust".into(),
             classification: "Sink/Video".into(),
             author: "Hyunjun Ko <zzoon@igalia.com>".into(),
             rank: 256 + 100,
